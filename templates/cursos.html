@@ -1,0 +1,76 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="flex justify-between items-center mb-6">
+    <h2 class="text-2xl font-bold text-gray-800">Lista de Cursos</h2>
+    <a href="/cursos/agregar"
+        class="inline-flex items-center gap-2 text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-4 py-2 shadow focus:outline-none">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+        </svg>
+        Agregar Curso
+    </a>
+</div>
+
+<div class="w-full overflow-hidden rounded-xl shadow-sm border border-gray-200 bg-white">
+    <table class="w-full text-sm text-left text-gray-600">
+        <thead>
+            <tr class="bg-gray-100 text-xs text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                <th class="px-6 py-4 font-semibold">ID</th>
+                <th class="px-6 py-4 font-semibold">Nombre</th>
+                <th class="px-6 py-4 font-semibold">Descripción</th>
+                <th class="px-6 py-4 font-semibold">Maestro</th>
+                <th class="px-6 py-4 font-semibold">Alumnos</th>
+                <th class="px-6 py-4 font-semibold text-center">Acciones</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-100">
+            {% for c in cursos %}
+            <tr class="hover:bg-gray-50 transition-colors">
+                <td class="px-6 py-4 font-medium text-gray-800">{{ c.id }}</td>
+                <td class="px-6 py-4 font-medium">{{ c.nombre }}</td>
+                <td class="px-6 py-4 text-gray-500 max-w-xs truncate">{{ c.descripcion or '—' }}</td>
+                <td class="px-6 py-4">
+                    {% if c.maestro %}
+                    {{ c.maestro.nombre }} {{ c.maestro.apellidos }}
+                    {% else %}
+                    <span class="text-gray-400 italic">Sin asignar</span>
+                    {% endif %}
+                </td>
+                <td class="px-6 py-4">
+                    <span
+                        class="inline-flex items-center justify-center w-6 h-6 bg-blue-100 text-blue-700 text-xs font-bold rounded-full">
+                        {{ c.alumnos | length }}
+                    </span>
+                </td>
+                <td class="px-6 py-4">
+                    <div class="flex justify-center gap-2">
+                        <a href="/cursos/detalles?id={{ c.id }}"
+                            class="px-3 py-1.5 text-xs font-semibold text-white bg-blue-500 rounded-lg shadow-sm hover:bg-blue-600 transition-colors">
+                            Detalles
+                        </a>
+                        <a href="/cursos/inscribir?id={{ c.id }}"
+                            class="px-3 py-1.5 text-xs font-semibold text-white bg-green-500 rounded-lg shadow-sm hover:bg-green-600 transition-colors">
+                            Inscribir
+                        </a>
+                        <a href="/cursos/modificar?id={{ c.id }}"
+                            class="px-3 py-1.5 text-xs font-semibold text-white bg-yellow-400 rounded-lg shadow-sm hover:bg-yellow-500 transition-colors">
+                            Editar
+                        </a>
+                        <a href="/cursos/eliminar?id={{ c.id }}"
+                            class="px-3 py-1.5 text-xs font-semibold text-white bg-red-500 rounded-lg shadow-sm hover:bg-red-600 transition-colors">
+                            Eliminar
+                        </a>
+                    </div>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="6" class="px-6 py-8 text-center text-gray-400 italic">No hay cursos registrados.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

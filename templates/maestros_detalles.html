@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+    <h4 class="mb-6 text-2xl font-bold text-gray-800 border-b pb-4 border-blue-500">Detalles del Maestro</h4>
+
+    <div class="mb-5 border-b border-gray-100 pb-4">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Matrícula</label>
+        <p class="text-base text-gray-800">{{ matricula }}</p>
+    </div>
+
+    <div class="mb-5 border-b border-gray-100 pb-4">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Nombre</label>
+        <p class="text-base text-gray-800">{{ nombre }}</p>
+    </div>
+
+    <div class="mb-5 border-b border-gray-100 pb-4">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Apellidos</label>
+        <p class="text-base text-gray-800">{{ apellidos }}</p>
+    </div>
+
+    <div class="mb-5 border-b border-gray-100 pb-4">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Especialidad</label>
+        <p class="text-base text-gray-800">{{ especialidad }}</p>
+    </div>
+
+    <div class="mb-6 border-b border-gray-100 pb-4">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase tracking-wider">Correo
+            Electrónico</label>
+        <p class="text-base text-gray-800">{{ email }}</p>
+    </div>
+
+    <div class="flex justify-end mt-6">
+        <a href="/maestros"
+            class="text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+            Regresar
+        </a>
+    </div>
+</div>
+
+{% endblock %}

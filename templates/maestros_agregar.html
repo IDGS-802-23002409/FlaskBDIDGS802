@@ -2,11 +2,20 @@
 {% block container %}
 
 <div class="max-w-xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
-    <h4 class="mb-6 text-2xl font-bold text-gray-800 border-b pb-4 border-yellow-400">Editar Alumno</h4>
+    <h4 class="mb-6 text-2xl font-bold text-gray-800 border-b pb-4 border-green-400">Agregar Maestro</h4>
 
-    <form action="/alumnos/modificar?id={{ id }}" method="POST" novalidate>
+    <form action="/maestros/agregar" method="POST" novalidate>
         {{ form.csrf_token }}
-        {{ form.id(class="hidden") }}
+
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Matrícula</label>
+            {{ form.matricula(class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5") }}
+            {% if form.matricula.errors %}
+            <p class="mt-2 text-sm text-red-600"><span class="font-medium">Error!</span> {{ form.matricula.errors[0] }}
+            </p>
+            {% endif %}
+        </div>
 
         <div class="mb-5">
             <label class="block mb-2 text-sm font-medium text-gray-700">Nombre</label>
@@ -27,6 +36,16 @@
             {% endif %}
         </div>
 
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Especialidad</label>
+            {{ form.especialidad(class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5") }}
+            {% if form.especialidad.errors %}
+            <p class="mt-2 text-sm text-red-600"><span class="font-medium">Error!</span> {{ form.especialidad.errors[0]
+                }}</p>
+            {% endif %}
+        </div>
+
         <div class="mb-6">
             <label class="block mb-2 text-sm font-medium text-gray-700">Correo Electrónico</label>
             {{ form.email(class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
@@ -37,13 +56,13 @@
         </div>
 
         <div class="flex justify-end space-x-3">
-            <a href="/alumnos"
+            <a href="/maestros"
                 class="text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
                 Cancelar
             </a>
             <button type="submit"
                 class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5">
-                Guardar Cambios
+                Guardar
             </button>
         </div>
     </form>

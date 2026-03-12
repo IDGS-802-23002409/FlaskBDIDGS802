@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+    <h4 class="mb-2 text-2xl font-bold text-gray-800">Inscribir Alumnos</h4>
+    <p class="text-sm text-gray-500 mb-6 border-b pb-4 border-green-400">
+        Curso: <span class="font-semibold text-gray-700">{{ curso.nombre }}</span>
+    </p>
+
+    <form action="/cursos/inscribir?id={{ curso.id }}" method="POST" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+
+        <div class="mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Seleccionar Alumno</label>
+            <select name="alumno_id"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5">
+                <option value="">— Selecciona un alumno —</option>
+                {% for a in alumnos %}
+                <option value="{{ a.id }}" {% if a.id in inscritos_ids %}disabled {% endif %}>
+                    {{ a.id }} — {{ a.nombre }} {{ a.apaterno }}
+                    {% if a.id in inscritos_ids %} (ya inscrito){% endif %}
+                </option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex justify-end space-x-3">
+            <a href="/cursos/detalles?id={{ curso.id }}"
+                class="text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+                Cancelar
+            </a>
+            <button type="submit"
+                class="text-white bg-green-600 hover:bg-green-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                Inscribir
+            </button>
+        </div>
+    </form>
+
+    {% if curso.alumnos %}
+    <div class="mt-8">
+        <h5 class="text-sm font-semibold text-gray-500 uppercase mb-3">Ya inscritos ({{ curso.alumnos | length }})</h5>
+        <div class="flex flex-wrap gap-2">
+            {% for a in curso.alumnos %}
+            <span
+                class="inline-flex items-center px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full border border-blue-200">
+                {{ a.nombre }} {{ a.apaterno }}
+            </span>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% endblock %}

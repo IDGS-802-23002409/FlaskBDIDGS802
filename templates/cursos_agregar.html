@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="max-w-xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+    <h4 class="mb-6 text-2xl font-bold text-gray-800 border-b pb-4 border-green-400">Agregar Curso</h4>
+
+    <form action="/cursos/agregar" method="POST" novalidate>
+        {{ form.csrf_token }}
+
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Nombre del Curso</label>
+            {{ form.nombre(class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500
+            focus:border-blue-500 block w-full p-2.5") }}
+        </div>
+
+        <div class="mb-5">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Descripción</label>
+            {{ form.descripcion(class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg
+            focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5") }}
+        </div>
+
+        <div class="mb-6">
+            <label class="block mb-2 text-sm font-medium text-gray-700">Maestro Asignado</label>
+            <select name="maestro_id"
+                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                <option value="">— Selecciona un maestro —</option>
+                {% for m in maestros %}
+                <option value="{{ m.matricula }}">{{ m.matricula }} — {{ m.nombre }} {{ m.apellidos }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="flex justify-end space-x-3">
+            <a href="/cursos"
+                class="text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+                Cancelar
+            </a>
+            <button type="submit"
+                class="text-white bg-blue-600 hover:bg-blue-700 font-medium rounded-lg text-sm px-5 py-2.5">
+                Guardar
+            </button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

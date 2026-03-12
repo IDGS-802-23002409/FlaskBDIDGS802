@@ -1,0 +1,78 @@
+{% extends "layout.html" %}
+{% block container %}
+
+<div class="max-w-2xl mx-auto mt-10 p-6 bg-white border border-gray-200 rounded-xl shadow-sm">
+    <div class="flex justify-between items-start mb-6 border-b pb-4 border-blue-400">
+        <div>
+            <h4 class="text-2xl font-bold text-gray-800">{{ curso.nombre }}</h4>
+            <p class="text-sm text-gray-500 mt-1">{{ curso.descripcion or 'Sin descripción.' }}</p>
+        </div>
+        <a href="/cursos/inscribir?id={{ curso.id }}"
+            class="px-4 py-2 text-sm font-semibold text-white bg-green-500 rounded-lg hover:bg-green-600 shadow-sm transition-colors">
+            + Inscribir Alumno
+        </a>
+    </div>
+
+    <div class="mb-5">
+        <label class="block mb-1 text-xs font-semibold text-gray-500 uppercase">Maestro</label>
+        <p class="text-gray-800 font-medium">
+            {% if curso.maestro %}
+            {{ curso.maestro.nombre }} {{ curso.maestro.apellidos }}
+            <span class="ml-2 text-xs text-gray-400">(Matrícula: {{ curso.maestro.matricula }})</span>
+            {% else %}
+            <span class="text-gray-400 italic">Sin maestro asignado</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <div>
+        <label class="block mb-3 text-xs font-semibold text-gray-500 uppercase">
+            Alumnos Inscritos ({{ curso.alumnos | length }})
+        </label>
+        {% if curso.alumnos %}
+        <div class="w-full overflow-hidden rounded-lg border border-gray-200">
+            <table class="w-full text-sm text-left text-gray-600">
+                <thead class="bg-gray-100 text-xs text-gray-500 uppercase border-b border-gray-200">
+                    <tr>
+                        <th class="px-4 py-3 font-semibold">ID</th>
+                        <th class="px-4 py-3 font-semibold">Nombre</th>
+                        <th class="px-4 py-3 font-semibold">Email</th>
+                        <th class="px-4 py-3 font-semibold text-center">Acción</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                    {% for a in curso.alumnos %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3 font-medium text-gray-800">{{ a.id }}</td>
+                        <td class="px-4 py-3">{{ a.nombre }} {{ a.apaterno }}</td>
+                        <td class="px-4 py-3">{{ a.email }}</td>
+                        <td class="px-4 py-3 text-center">
+                            <form action="/cursos/desinscribir" method="POST" class="inline">
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
+                                <input type="hidden" name="curso_id" value="{{ curso.id }}" />
+                                <input type="hidden" name="alumno_id" value="{{ a.id }}" />
+                                <button type="submit"
+                                    class="px-3 py-1 text-xs font-semibold text-red-500 border border-red-400 rounded hover:bg-red-500 hover:text-white transition-colors">
+                                    Quitar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <p class="text-gray-400 italic py-4 text-center">Ningún alumno inscrito aún.</p>
+        {% endif %}
+    </div>
+
+    <div class="flex justify-end mt-6">
+        <a href="/cursos"
+            class="text-gray-700 bg-white border border-gray-300 hover:bg-gray-100 font-medium rounded-lg text-sm px-5 py-2.5">
+            Regresar
+        </a>
+    </div>
+</div>
+
+{% endblock %}
